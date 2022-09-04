@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Customers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customers</h2>
+
+<table id="customers" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Membership Type</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            $("#customers").DataTable({
+                "processing": true,
+                "serverSide": true,
+                ajax: {
+                    url: "/api/customers",
+                    dataType: "json",
+                    async: true
+                },
+                "language": {
+                    "emptyTable": "No record found.",
+                    "processing":
+                        '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+                },
+                columns: [
+                    {
+                        data: "name"
+                    },
+                    {
+                        data: "membershipType.name"
+                    }
+                ]
+            });
+        })
+    </script>
+}
