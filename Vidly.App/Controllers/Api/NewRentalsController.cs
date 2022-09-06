@@ -18,6 +18,22 @@ namespace Vidly.App.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateNewRetals(NewRentalDto newRental)
         {
+            var rental = new Rental();
+
+            var lastRental = _context.Rentals
+                .OrderByDescending(c => c.Id)
+                .FirstOrDefault();
+
+            string rentalNo;
+
+            if(lastRental == null)
+            {
+                rentalNo = "RN00001";
+            } else
+            {
+                rentalNo = "RN" + (Convert.ToInt32(lastRental.RentalNo.Substring(3, lastRental.RentalNo.Length - 3)) + 1).ToString("D5");
+            }
+            
             var customer = _context.Customers.Single(
                 c => c.Id == newRental.CustomerId);
 
@@ -31,14 +47,16 @@ namespace Vidly.App.Controllers.Api
 
                 movie.NumberAvailable--;
 
-                var rental = new Rental
+                 rental = new Rental
                 {
+                    RentalNo = rentalNo,
                     Customer = customer,
                     Movie = movie,
                     DateRented = DateTime.Now
                 };
 
                 _context.Rentals.Add(rental);
+
             }
 
             _context.SaveChanges();

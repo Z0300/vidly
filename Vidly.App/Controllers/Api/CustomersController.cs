@@ -18,7 +18,7 @@ namespace Vidly.App.Controllers.Api
             _context = new ApplicationDbContext();
         }
 
-        // GET /api/customers
+        //GET /api/customers
         public IHttpActionResult GetCustomers(string query = null)
         {
 
@@ -68,7 +68,6 @@ namespace Vidly.App.Controllers.Api
 
             return Ok(obj);
         }
-
 
 
         // GET /api/customers/1

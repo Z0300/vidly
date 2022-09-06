@@ -15,7 +15,8 @@ namespace Vidly.App
                          "~/Scripts/bootbox.js",
                          "~/Scripts/moment.js",
                          "~/Scripts/bootstrap-datetimepicker.js",
-                         "~/Scripts/typeahead.bundle.js"));
+                         "~/Scripts/typeahead.bundle.js",
+                         "~/Scripts/toastr.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -33,6 +34,7 @@ namespace Vidly.App
                       "~/content/datatables/css/datatables.bootstrap.css",
                       "~/content/font-awesome.css",
                       "~/Content/typeahead.css",
+                      "~/Content/toastr.css",
                       "~/Content/Site.css"));
         }
     }

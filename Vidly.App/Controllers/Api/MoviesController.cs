@@ -19,7 +19,7 @@ namespace Vidly.App.Controllers.Api
             _context = new ApplicationDbContext();
         }
 
-        // GET /api/movies
+        //// GET /api/movies
         public IHttpActionResult GetMovies(string query = null)
         {
             var moviesQuery = _context.Movies.Include(a => a.Genre);
@@ -66,6 +66,7 @@ namespace Vidly.App.Controllers.Api
             return Ok(obj);
         }
 
+
         // GET /api/movies/1
         public IHttpActionResult GetMovie(int id)
         {
@@ -76,6 +77,7 @@ namespace Vidly.App.Controllers.Api
 
             return Ok(Mapper.Map<Movie, MovieDto>(movie));
         }
+
 
         // POST /api/movies
         [HttpPost]

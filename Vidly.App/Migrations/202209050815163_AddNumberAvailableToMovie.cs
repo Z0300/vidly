@@ -1,0 +1,17 @@
+namespace Vidly.App.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class AddNumberAvailableToMovie : DbMigration
+    {
+        public override void Up()
+        {
+            Sql("update Movies set NumberAvailable=NumberInStock");
+        }
+        
+        public override void Down()
+        {
+        }
+    }
+}
