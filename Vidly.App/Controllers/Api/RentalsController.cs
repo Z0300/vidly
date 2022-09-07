@@ -71,7 +71,26 @@ namespace Vidly.App.Controllers.Api
 
             return Ok(obj);
         }
-
         
+        public IHttpActionResult GetRentedMovies(int id)
+        {
+            var rental = _context.Rentals
+                .Include(x => x.Customer)
+                .FirstOrDefault(c => c.CustomerId == id);
+
+            var rentedMovies = _context.Rentals
+                .Where(x => x.CustomerId == id)
+                .Select(x => x.MovieId)
+                .ToList();
+
+            var dto = new RentalFormViewModel
+            {
+                Customer = _context.Customers.Single(c => c.Id == rental.CustomerId),
+                Movies = _context.Movies
+                            .Include(x => x.Genre)
+                            .Where(x => rentedMovies.Contains(x.Id))
+            };
+            return Ok(dto);
+        }
     }
 }
