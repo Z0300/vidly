@@ -1,0 +1,100 @@
+﻿@model Vidly.App.ViewModels.RentalFormViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    @Html.ActionLink("Back", "Index", "Rentals", null, new { @class = "btn btn-default" })
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h2>@Model.Customer.Name's Rented Movies</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="form-group">
+            <button class="btn btn-primary" id="return">Return</button>
+        </div>
+        <table id="rented" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Movie</th>
+                    <th>Genre</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+        </table>
+
+    </div>
+</div>
+<input type="hidden" id="customerId" value="@Model.Customer.Id" />
+@Html.HiddenFor(x => x.RentalNo)
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            const id = $("#customerId").val();
+            const rentalNo = $("#RentalNo").val();
+            let vm = { movieIds: [] }
+
+            $("#rented").DataTable({
+
+                ajax: {
+                    url: "/api/rentedMovies",
+                    data: {
+                        id: id
+                    },
+                    dataSrc: "",
+                },
+                columns: [
+                    {
+                        data: "name"
+                    },
+                    {
+                        data: "genre.name"
+                    },
+                    {
+                        data: "rating",
+                        render: function (data, type, movie) {
+                            let star = "<span class='fa fa-star text-star'>";
+                            if (data !== 0) {
+                                return star.repeat(data);
+                            } else {
+                                return ""
+                            }
+                        }
+                    }
+                ]
+            });
+
+            $("#return").on("click", function () {
+                $.ajax({
+                    url: "/api/rentedMovies",
+                    data: {
+                        id: id
+                    }
+                }).done(function (response) {
+                    vm.rentalNo = rentalNo;
+                    for (var i = 0; i < response.length; i++) {
+                        vm.movieIds.push(response[i].id);
+                    }
+                    $.ajax({
+                        url: "/api/returnMovies",
+                        method: "post",
+                        data: vm
+                    }).done(function () {
+                        toastr.success("Successfully return movie");
+                        location.href = "/rentals";
+
+                    }).fail(function () {
+                        toastr.error("Something unexpected happened.");
+                    });
+                })
+            })
+        })
+    </script>
+
+}
+

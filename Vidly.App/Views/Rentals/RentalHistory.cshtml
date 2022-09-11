@@ -1,0 +1,87 @@
+﻿@model Vidly.App.ViewModels.CustomerViewModel
+
+@{
+    ViewBag.Title = "History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    @Html.ActionLink("Back", "Index", "Rentals", null, new { @class = "btn btn-default" })
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>@Model.Customer.Name</h2>
+        <h3>Rental History</h3>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <table id="rented" class="table table-bordered table-hover" width="100%">
+            <thead>
+                <tr>
+                    <th>Movie</th>
+                    <th>Genre</th>
+                    <th>Date Rented</th>
+                    <th>Date Returned</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<input type="hidden" id="customerId" value="@Model.Customer.Id" />
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            const id = $("#customerId").val();
+
+            $("#rented").DataTable({
+
+                ajax: {
+                    url: "/api/rentalHistories",
+                    data: {
+                        id: id
+                    },
+                    dataSrc: "",
+                },
+                columns: [
+                    {
+                        data: "movie.name"
+                    },
+                    {
+                        data: "movie.genre.name"
+                    },
+                    {
+                        data: "dateRented",
+                        render: function (data, type, rental) {
+                            return moment(data).format("MM/DD/YYYY")
+                        }
+                    },
+                    {
+                        data: "dateReturned",
+                        render: function (data, type, rental) {
+                            return moment(data).format("MM/DD/YYYY")
+                        }
+                    },
+                    {
+                        data: "movie.rating",
+                        render: function (data, type, movie) {
+                            let star = "<span class='fa fa-star text-star'>";
+                            if (data !== 0) {
+                                return star.repeat(data);
+                            } else {
+                                return ""
+                            }
+                        }
+                    }
+                ]
+            });
+
+        })
+    </script>
+
+}
+

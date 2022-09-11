@@ -53,8 +53,12 @@
                     },
                     {
                         data: "customer.id",
-                        render: function (data, type, customer) {
-                            return "<a href='/rentals/details/" + data + "'><i class='fa fa-info-circle text-primary'></i></a>";
+                        orderable: false,
+                        render: function (data, type, row) {
+                            if (row.isReturn === true) {
+                                return "<a href='/rentals/history/" + data + "'><i class='fa fa-check-square-o text-success'></i></a>"
+                            } else
+                                return "<a href='/rentals/details/" + data + "'><i class='fa fa-list text-primary'></i></a>";
                         }
                     }
                 ]

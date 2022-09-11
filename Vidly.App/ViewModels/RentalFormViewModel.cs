@@ -7,6 +7,10 @@ namespace Vidly.App.ViewModels
     {
         public string RentalNo { get; set; }
         public Customer Customer { get; set; }
-        public IEnumerable<Movie> Movies { get; set; }
+    }
+
+    public class CustomerViewModel
+    {
+        public Customer Customer { get; set; }
     }
 }
