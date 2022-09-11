@@ -3,15 +3,16 @@ namespace Vidly.App.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddNumberAvailableToMovie : DbMigration
+    public partial class RemoveCusomerPhoneValidation : DbMigration
     {
         public override void Up()
         {
-            Sql("update Movies set NumberAvailable=NumberInStock");
+            AlterColumn("dbo.Customers", "Phone", c => c.Long());
         }
         
         public override void Down()
         {
+            AlterColumn("dbo.Customers", "Phone", c => c.Long(nullable: false));
         }
     }
 }

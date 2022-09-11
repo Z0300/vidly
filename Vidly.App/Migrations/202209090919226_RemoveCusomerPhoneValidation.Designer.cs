@@ -7,13 +7,13 @@ namespace Vidly.App.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class PopulateMembershipTypes : IMigrationMetadata
+    public sealed partial class RemoveCusomerPhoneValidation : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PopulateMembershipTypes));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(RemoveCusomerPhoneValidation));
         
         string IMigrationMetadata.Id
         {
-            get { return "202209050755172_PopulateMembershipTypes"; }
+            get { return "202209090919226_RemoveCusomerPhoneValidation"; }
         }
         
         string IMigrationMetadata.Source

@@ -14,6 +14,7 @@
         <tr>
             <th>Movie</th>
             <th>Genre</th>
+            <th>Rating</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -43,6 +44,17 @@
                     },
                     {
                         data: "genre.name"
+                    },
+                    {
+                        data: "rating",
+                        render: function (data, type, rating) {
+                            let star = "<span class='fa fa-star text-star'>";
+                            if (data !== 0) {
+                                return star.repeat(data);
+                            } else {
+                                return ""
+                            }
+                        }
                     },
                     {
                         data: "id",

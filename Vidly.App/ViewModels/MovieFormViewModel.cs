@@ -27,6 +27,8 @@ namespace Vidly.App.ViewModels
         [Required]
         public byte? NumberInStock { get; set; }
 
+        public int? Rating { get; set; }
+
 
         public string Title
         {
@@ -48,6 +50,7 @@ namespace Vidly.App.ViewModels
             ReleaseDate = movie.ReleaseDate;
             NumberInStock = movie.NumberInStock;
             GenreId = movie.GenreId;
+            Rating = movie.Rating;
         }
     }
 }

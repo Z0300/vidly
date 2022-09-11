@@ -12,13 +12,13 @@
     @Html.ValidationSummary(true, "Please fix the following errors", new { @class = "field-validation-error" })
     <div class="form-group">
         @Html.LabelFor(x => x.Name)
-        @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @autocomplete="off" })
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @autocomplete = "off" })
         @Html.ValidationMessageFor(x => x.Name)
     </div>
 
     <div class="form-group" style="position:relative;">
         @Html.LabelFor(x => x.ReleaseDate)
-        @Html.TextBoxFor(x => x.ReleaseDate, new { @class = "form-control"})
+        @Html.TextBoxFor(x => x.ReleaseDate, new { @class = "form-control" })
         @Html.ValidationMessageFor(x => x.ReleaseDate)
     </div>
 
@@ -35,7 +35,17 @@
         @Html.ValidationMessageFor(x => x.NumberInStock)
     </div>
 
+    <div class="form-group">
+        @Html.LabelFor(x => x.Rating)
+        <div onmouseout="RateSelected()">
+            @for (int i = 1; i <= 5; i++)
+            {
+                <span id="span-@i" onmouseout="RateOut(@i)" onmouseover="RateOver(@i)" onclick="RateClick(@i)" class="fa fa-star-o"></span>
+            }
+        </div>
+    </div>
     @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.Rating)
     @Html.AntiForgeryToken()
     <button type="submit" class="btn btn-primary">Save</button>
     @Html.ActionLink("Cancel", "Index", "Movies", null, new { @class = "btn btn-default" })
@@ -44,11 +54,42 @@
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        $(function () {
+        $(document).ready(function () {
             $('#ReleaseDate').datetimepicker({
-                format: 'd/MM/YYYY'
+                format: 'MM/DD/YYYY'
             });
+            RateSelected()
         })
+
+        function RateOut(rating) {
+            for (let i = 1; i <= rating; i++) {
+                $("#span-" + i).attr("class", "fa fa-star-o");
+            }
+        }
+
+        function RateOver(rating) {
+            for (let i = 1; i <= rating; i++) {
+                $("#span-" + i).attr("class", "fa fa-star text-star");
+            }
+        }
+
+        function RateClick(rating) {
+            $("#Rating").val(rating);
+            for (let i = 1; i <= rating; i++) {
+                $("#span-" + i).attr("class", "fa fa-star text-star");
+            }
+            for (let i = rating + 1; i <= 5; i++) {
+                $("#span-" + i).attr("class", "fa fa-star-o");
+            }
+        }
+
+        function RateSelected() {
+            let rating = $("#Rating").val();
+            for (var i = 1; i <= rating; i++) {
+                $("#span-" + i).attr("class", "fa fa-star text-star");
+            }
+        }
+
     </script>
 }
 

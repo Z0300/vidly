@@ -3,16 +3,16 @@ namespace Vidly.App.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddReferenceNo : DbMigration
+    public partial class AddPhoneToCustomer : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.Rentals", "RentalNo", c => c.String());
+            AddColumn("dbo.Customers", "Phone", c => c.Long(nullable: false));
         }
         
         public override void Down()
         {
-            DropColumn("dbo.Rentals", "RentalNo");
+            DropColumn("dbo.Customers", "Phone");
         }
     }
 }

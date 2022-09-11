@@ -32,3 +32,11 @@ label.error {
 input.error {
     border: 2px solid red;
 }
+
+.text-star {
+    color: #ffd800;
+}
+
+.fa-star {
+    cursor: pointer;
+}

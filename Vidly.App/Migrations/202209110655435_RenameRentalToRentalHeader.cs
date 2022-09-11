@@ -1,0 +1,18 @@
+namespace Vidly.App.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class RenameRentalToRentalHeader : DbMigration
+    {
+        public override void Up()
+        {
+            RenameTable(name: "dbo.Rentals", newName: "RentalHeaders");
+        }
+        
+        public override void Down()
+        {
+            RenameTable(name: "dbo.RentalHeaders", newName: "Rentals");
+        }
+    }
+}

@@ -200,6 +200,10 @@
     <Compile Include="Controllers\Api\CustomersController.cs" />
     <Compile Include="Controllers\Api\MoviesController.cs" />
     <Compile Include="Controllers\Api\NewRentalsController.cs" />
+    <Compile Include="Controllers\Api\RentalHistoriesController.cs" />
+    <Compile Include="Controllers\Api\RentalsController.cs" />
+    <Compile Include="Controllers\Api\RentedMoviesController.cs" />
+    <Compile Include="Controllers\Api\ReturnMoviesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -210,63 +214,48 @@
     <Compile Include="Dtos\MovieDto.cs" />
     <Compile Include="Dtos\NewRentalDto.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
-    <Compile Include="Migrations\202208281136452_ChangeColumnNumberInStocksToNumberInStock.cs" />
-    <Compile Include="Migrations\202208281136452_ChangeColumnNumberInStocksToNumberInStock.Designer.cs">
-      <DependentUpon>202208281136452_ChangeColumnNumberInStocksToNumberInStock.cs</DependentUpon>
+    <Compile Include="Migrations\202209050725082_InitialModel.cs" />
+    <Compile Include="Migrations\202209050725082_InitialModel.Designer.cs">
+      <DependentUpon>202209050725082_InitialModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202208311435332_SeedUsers.cs" />
-    <Compile Include="Migrations\202208311435332_SeedUsers.Designer.cs">
-      <DependentUpon>202208311435332_SeedUsers.cs</DependentUpon>
+    <Compile Include="Migrations\202209081150441_ResetModel.cs" />
+    <Compile Include="Migrations\202209081150441_ResetModel.Designer.cs">
+      <DependentUpon>202209081150441_ResetModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202209020456067_AddPhoneToApplicationUser.cs" />
-    <Compile Include="Migrations\202209020456067_AddPhoneToApplicationUser.Designer.cs">
-      <DependentUpon>202209020456067_AddPhoneToApplicationUser.cs</DependentUpon>
+    <Compile Include="Migrations\202209081159147_AddRentalDetail.cs" />
+    <Compile Include="Migrations\202209081159147_AddRentalDetail.Designer.cs">
+      <DependentUpon>202209081159147_AddRentalDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202209031004114_AddRental.cs" />
-    <Compile Include="Migrations\202209031004114_AddRental.Designer.cs">
-      <DependentUpon>202209031004114_AddRental.cs</DependentUpon>
+    <Compile Include="Migrations\202209090650154_AddRatingToMovie.cs" />
+    <Compile Include="Migrations\202209090650154_AddRatingToMovie.Designer.cs">
+      <DependentUpon>202209090650154_AddRatingToMovie.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202209031030119_AddNumberAvailableToMovie.cs" />
-    <Compile Include="Migrations\202209031030119_AddNumberAvailableToMovie.Designer.cs">
-      <DependentUpon>202209031030119_AddNumberAvailableToMovie.cs</DependentUpon>
+    <Compile Include="Migrations\202209090859378_AddPhoneToCustomer.cs" />
+    <Compile Include="Migrations\202209090859378_AddPhoneToCustomer.Designer.cs">
+      <DependentUpon>202209090859378_AddPhoneToCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209090919226_RemoveCusomerPhoneValidation.cs" />
+    <Compile Include="Migrations\202209090919226_RemoveCusomerPhoneValidation.Designer.cs">
+      <DependentUpon>202209090919226_RemoveCusomerPhoneValidation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209110655435_RenameRentalToRentalHeader.cs" />
+    <Compile Include="Migrations\202209110655435_RenameRentalToRentalHeader.Designer.cs">
+      <DependentUpon>202209110655435_RenameRentalToRentalHeader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209110700176_AddIsReturnToRentalHeaders.cs" />
+    <Compile Include="Migrations\202209110700176_AddIsReturnToRentalHeaders.Designer.cs">
+      <DependentUpon>202209110700176_AddIsReturnToRentalHeaders.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Min18YearsAMember.cs" />
-    <Compile Include="Models\Rental.cs" />
+    <Compile Include="Models\RentalHeader.cs" />
+    <Compile Include="Models\RentalDetail.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="ViewModels\MovieFormViewModel.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202208251120215_InitialModel.cs" />
-    <Compile Include="Migrations\202208251120215_InitialModel.Designer.cs">
-      <DependentUpon>202208251120215_InitialModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202208251127506_AddIsSubscribedToCustomer.cs" />
-    <Compile Include="Migrations\202208251127506_AddIsSubscribedToCustomer.Designer.cs">
-      <DependentUpon>202208251127506_AddIsSubscribedToCustomer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202208251131335_AddMembershipType.cs" />
-    <Compile Include="Migrations\202208251131335_AddMembershipType.Designer.cs">
-      <DependentUpon>202208251131335_AddMembershipType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202208251133310_PopulateMembershipTypes.cs" />
-    <Compile Include="Migrations\202208251133310_PopulateMembershipTypes.Designer.cs">
-      <DependentUpon>202208251133310_PopulateMembershipTypes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202208251206411_ApplyAnnotationToCustomerName.cs" />
-    <Compile Include="Migrations\202208251206411_ApplyAnnotationToCustomerName.Designer.cs">
-      <DependentUpon>202208251206411_ApplyAnnotationToCustomerName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202208251230395_UpdateNavigationCustomerMembershipType.cs" />
-    <Compile Include="Migrations\202208251230395_UpdateNavigationCustomerMembershipType.Designer.cs">
-      <DependentUpon>202208251230395_UpdateNavigationCustomerMembershipType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202208271428414_RefactorNavigationPropertyForCustomerAndMovie.cs" />
-    <Compile Include="Migrations\202208271428414_RefactorNavigationPropertyForCustomerAndMovie.Designer.cs">
-      <DependentUpon>202208271428414_RefactorNavigationPropertyForCustomerAndMovie.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -278,6 +267,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CustomerFormViewModel.cs" />
+    <Compile Include="ViewModels\RentalFormViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.css" />
@@ -397,6 +387,8 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="Content\typeahead.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -498,6 +490,8 @@
     <Content Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </Content>
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -577,6 +571,8 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\typeahead.bundle.js" />
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="Scripts\typeahead.jquery.js" />
@@ -624,6 +620,9 @@
     <Content Include="Views\Movies\ReadOnlyList.cshtml" />
     <Content Include="Views\Customers\ReadOnlyList.cshtml" />
     <Content Include="Views\Rentals\New.cshtml" />
+    <Content Include="Views\Rentals\Index.cshtml" />
+    <Content Include="Views\Rentals\RentedList.cshtml" />
+    <Content Include="Views\Rentals\RentalHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -642,41 +641,29 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202208251120215_InitialModel.resx">
-      <DependentUpon>202208251120215_InitialModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202209050725082_InitialModel.resx">
+      <DependentUpon>202209050725082_InitialModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202208251127506_AddIsSubscribedToCustomer.resx">
-      <DependentUpon>202208251127506_AddIsSubscribedToCustomer.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202209081150441_ResetModel.resx">
+      <DependentUpon>202209081150441_ResetModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202208251131335_AddMembershipType.resx">
-      <DependentUpon>202208251131335_AddMembershipType.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202209081159147_AddRentalDetail.resx">
+      <DependentUpon>202209081159147_AddRentalDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202208251133310_PopulateMembershipTypes.resx">
-      <DependentUpon>202208251133310_PopulateMembershipTypes.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202209090650154_AddRatingToMovie.resx">
+      <DependentUpon>202209090650154_AddRatingToMovie.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202208251206411_ApplyAnnotationToCustomerName.resx">
-      <DependentUpon>202208251206411_ApplyAnnotationToCustomerName.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202209090859378_AddPhoneToCustomer.resx">
+      <DependentUpon>202209090859378_AddPhoneToCustomer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202208251230395_UpdateNavigationCustomerMembershipType.resx">
-      <DependentUpon>202208251230395_UpdateNavigationCustomerMembershipType.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202209090919226_RemoveCusomerPhoneValidation.resx">
+      <DependentUpon>202209090919226_RemoveCusomerPhoneValidation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202208271428414_RefactorNavigationPropertyForCustomerAndMovie.resx">
-      <DependentUpon>202208271428414_RefactorNavigationPropertyForCustomerAndMovie.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202209110655435_RenameRentalToRentalHeader.resx">
+      <DependentUpon>202209110655435_RenameRentalToRentalHeader.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202208281136452_ChangeColumnNumberInStocksToNumberInStock.resx">
-      <DependentUpon>202208281136452_ChangeColumnNumberInStocksToNumberInStock.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202208311435332_SeedUsers.resx">
-      <DependentUpon>202208311435332_SeedUsers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202209020456067_AddPhoneToApplicationUser.resx">
-      <DependentUpon>202209020456067_AddPhoneToApplicationUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202209031004114_AddRental.resx">
-      <DependentUpon>202209031004114_AddRental.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202209031030119_AddNumberAvailableToMovie.resx">
-      <DependentUpon>202209031030119_AddNumberAvailableToMovie.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202209110700176_AddIsReturnToRentalHeaders.resx">
+      <DependentUpon>202209110700176_AddIsReturnToRentalHeaders.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,8 +1,8 @@
-﻿using System.Web.Mvc;
-using Vidly.App.Models;
-using System.Data.Entity;
-using Vidly.App.ViewModels;
+﻿using System.Data.Entity;
 using System.Linq;
+using System.Web.Mvc;
+using Vidly.App.Models;
+using Vidly.App.ViewModels;
 
 namespace Vidly.App.Controllers
 {
@@ -32,24 +32,38 @@ namespace Vidly.App.Controllers
 
         public ActionResult Details(int id)
         {
-            var rental = _context.Rentals
+            var rental = _context.RentalHeaders
                 .Include(x => x.Customer)
                 .FirstOrDefault(c => c.CustomerId == id);
 
-            var rentedMovies = _context.Rentals
+            var rentedMovies = _context.RentalHeaders
                 .Where(x => x.CustomerId == id)
                 .Select(x => x.MovieId)
-                .ToList();
+                .AsQueryable();
+
+            var rentalDetails = _context.RentalDetails
+                .Single(x => x.RentalNo == rental.RentalNo);
 
             var viewModel = new RentalFormViewModel
             {
+                RentalNo = rental.RentalNo,
                 Customer = _context.Customers.Single(c => c.Id == rental.CustomerId),
-                Movies = _context.Movies
-                            .Include(x => x.Genre)
-                            .Where(x => rentedMovies.Contains(x.Id))
             };
 
-            return View(viewModel);
+            return View("RentedList", viewModel);
         }
+
+        public ActionResult History(int id)
+        {
+            var customer = _context.Customers.Single(x => x.Id == id);
+            var vm = new CustomerViewModel
+            {
+                Customer = customer
+            };
+
+            return View("RentalHistory", vm);
+
+        }
+
     }
 }

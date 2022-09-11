@@ -22,6 +22,9 @@ namespace Vidly.App.ViewModels
         [Required]
         public int? MembershipTypeId { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:###-###-####}")]
+        public long? Phone { get; set; }
+
         public string Title
         {
             get
@@ -42,6 +45,7 @@ namespace Vidly.App.ViewModels
             MembershipTypeId = customer.MembershipTypeId;
             Birthdate = customer.Birthdate;
             IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
+            Phone = customer.Phone;
         }
     }
 }

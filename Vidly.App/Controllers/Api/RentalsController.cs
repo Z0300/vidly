@@ -3,8 +3,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using Vidly.App.Dtos;
 using Vidly.App.Models;
-using Vidly.App.ViewModels;
 
 namespace Vidly.App.Controllers.Api
 {
@@ -21,7 +21,7 @@ namespace Vidly.App.Controllers.Api
         // /pagination
         public IHttpActionResult GetRentals(string query = null)
         {
-            var rentalsQuery = _context.Rentals
+            var rentalsQuery = _context.RentalHeaders
                 .Include(m => m.Movie)
                 .Include(c => c.Customer);
 
@@ -56,9 +56,9 @@ namespace Vidly.App.Controllers.Api
 
 
             var rentalsDto = rentalsQuery
-                .GroupBy(x => new { x.RentalNo, x.Customer })
-                .Select(x => new { x.Key.RentalNo, x.Key.Customer })
-                .ToList();
+                .GroupBy(x => new { x.RentalNo, x.Customer, x.IsReturn })
+                .Select(x => new { x.Key.RentalNo, x.Key.Customer, x.Key.IsReturn })
+                .AsQueryable();
 
 
             var obj = new
@@ -71,26 +71,7 @@ namespace Vidly.App.Controllers.Api
 
             return Ok(obj);
         }
-        
-        public IHttpActionResult GetRentedMovies(int id)
-        {
-            var rental = _context.Rentals
-                .Include(x => x.Customer)
-                .FirstOrDefault(c => c.CustomerId == id);
 
-            var rentedMovies = _context.Rentals
-                .Where(x => x.CustomerId == id)
-                .Select(x => x.MovieId)
-                .ToList();
 
-            var dto = new RentalFormViewModel
-            {
-                Customer = _context.Customers.Single(c => c.Id == rental.CustomerId),
-                Movies = _context.Movies
-                            .Include(x => x.Genre)
-                            .Where(x => rentedMovies.Contains(x.Id))
-            };
-            return Ok(dto);
-        }
     }
 }
