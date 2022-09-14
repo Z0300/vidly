@@ -12,7 +12,6 @@
         <tr>
             <th>Rental No</th>
             <th>Customer</th>
-            <th>Date Rented</th>
             <th></th>
         </tr>
     </thead>
@@ -46,19 +45,12 @@
                         data: "customer.name"
                     },
                     {
-                        data: "dateRented",
-                        render: function (data) {
-                            return moment(data).format("MM/DD/YYYY")
-                        }
-                    },
-                    {
                         data: "customer.id",
                         orderable: false,
+                        className: "text-center",
                         render: function (data, type, row) {
-                            if (row.isReturn === true) {
-                                return "<a href='/rentals/history/" + data + "'><i class='fa fa-check-square-o text-success'></i></a>"
-                            } else
-                                return "<a href='/rentals/details/" + data + "'><i class='fa fa-list text-primary'></i></a>";
+                            return "<a href='/rentals/details/" + data + "/" + row.rentalNo + "'><i class='fa fa-list text-primary'></i></a>"
+
                         }
                     }
                 ]

@@ -22,7 +22,7 @@ namespace Vidly.App.Controllers.Api
             var moviesRented = _context.RentalHeaders
                .Include(x => x.Movie)
                .Include(x =>x.Movie.Genre)
-               .Where(x => x.CustomerId == id)
+               .Where(x => x.CustomerId == id && x.IsReturn == true)
                .AsQueryable();
 
             return Ok(moviesRented);

@@ -41,7 +41,15 @@
                         data: "genre.name"
                     },
                     {
-                        data: "rating"
+                        data: "rating",
+                        render: function (data, type, rating) {
+                            let star = "<span class='fa fa-star text-star'>";
+                            if (data !== 0) {
+                                return star.repeat(data);
+                            } else {
+                                return ""
+                            }
+                        }
                     }
                 ]
             })

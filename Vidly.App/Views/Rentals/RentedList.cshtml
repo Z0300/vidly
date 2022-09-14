@@ -4,31 +4,64 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div>
-    @Html.ActionLink("Back", "Index", "Rentals", null, new { @class = "btn btn-default" })
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <h2>@Model.Customer.Name's Rented Movies</h2>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12 col-sm-12">
-        <div class="form-group">
-            <button class="btn btn-primary" id="return">Return</button>
-        </div>
-        <table id="rented" class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Movie</th>
-                    <th>Genre</th>
-                    <th>Rating</th>
-                </tr>
-            </thead>
-        </table>
 
+<!--List of Rented Movies-->
+
+<div>
+    <div>
+        @Html.ActionLink("Back", "Index", "Rentals", null, new { @class = "btn btn-default" })
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>@Model.Customer.Name's Rented Movies</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="form-group">
+                <button class="btn btn-primary" id="return">Return All</button>
+            </div>
+            <table id="rented" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Movie</th>
+                        <th>Genre</th>
+                        <th>Rating</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
     </div>
 </div>
+
+<!--List of Returned Movies-->
+
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>List of Return Movies</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <table id="history" class="table table-bordered table-hover" width="100%">
+                <thead>
+                    <tr>
+                        <th>Rental No</th>
+                        <th>Movie</th>
+                        <th>Genre</th>
+                        <th>Rating</th>
+                        <th>Date Rented</th>
+                        <th>Date Returned</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
 <input type="hidden" id="customerId" value="@Model.Customer.Id" />
 @Html.HiddenFor(x => x.RentalNo)
 
@@ -39,24 +72,25 @@
             const rentalNo = $("#RentalNo").val();
             let vm = { movieIds: [] }
 
-            $("#rented").DataTable({
+            var rentedTable = $("#rented").DataTable({
 
                 ajax: {
                     url: "/api/rentedMovies",
                     data: {
-                        id: id
+                        id: id,
+                        rentalNo: rentalNo
                     },
                     dataSrc: "",
                 },
                 columns: [
                     {
-                        data: "name"
+                        data: "movie.name"
                     },
                     {
-                        data: "genre.name"
+                        data: "movie.genre.name"
                     },
                     {
-                        data: "rating",
+                        data: "movie.rating",
                         render: function (data, type, movie) {
                             let star = "<span class='fa fa-star text-star'>";
                             if (data !== 0) {
@@ -65,35 +99,106 @@
                                 return ""
                             }
                         }
+                    }, {
+                        data: "movie.id",
+                        render: function (data, type, movie) {
+                            return "<button class='btn-link js-return' data-movie-id=" + data + ">Return</button>";
+                        }
                     }
                 ]
             });
 
-            $("#return").on("click", function () {
-                $.ajax({
-                    url: "/api/rentedMovies",
+            var historyTable = $("#history").DataTable({
+
+                ajax: {
+                    url: "/api/rentalHistories",
                     data: {
                         id: id
-                    }
-                }).done(function (response) {
-                    vm.rentalNo = rentalNo;
-                    for (var i = 0; i < response.length; i++) {
-                        vm.movieIds.push(response[i].id);
-                    }
-                    $.ajax({
-                        url: "/api/returnMovies",
-                        method: "post",
-                        data: vm
-                    }).done(function () {
-                        toastr.success("Successfully return movie");
-                        location.href = "/rentals";
+                    },
+                    dataSrc: "",
+                },
+                columns: [
+                    {
+                        data: "rentalNo"
+                    },
+                    {
+                        data: "movie.name"
+                    },
+                    {
+                        data: "movie.genre.name"
+                    },
+                    {
+                        data: "movie.rating",
+                        render: function (data, type, movie) {
+                            let star = "<span class='fa fa-star text-star'>";
+                            if (data !== 0) {
+                                return star.repeat(data);
+                            } else {
+                                return ""
+                            }
+                        }
+                    },
+                    {
+                        data: "dateRented",
+                        render: function (data, type, rental) {
+                            return moment(data).format("MM/DD/YYYY")
+                        }
+                    },
+                    {
+                        data: "dateReturned",
+                        render: function (data, type, rental) {
+                            return moment(data).format("MM/DD/YYYY")
+                        }
+                    },
+                ]
+            });
 
-                    }).fail(function () {
-                        toastr.error("Something unexpected happened.");
-                    });
+            $("#rented").on("click", ".js-return", function () {
+                var button = $(this);
+                let svm = {
+                    movieId: button.attr("data-movie-id"),
+                    rentalNo: rentalNo,
+                    customerId: id
+                }
+                $.ajax({
+                    url: "/api/returnMovies",
+                    method: "PUT",
+                    data: svm,
+                    success: function () {
+                        rentedTable.row(button.parents("tr")).remove().draw();
+                        historyTable.ajax.reload();
+                    }
                 })
             })
+
+            $("#return").on("click", function () {
+
+                var data = rentedTable.rows().data();
+                vm.rentalNo = rentalNo;
+                for (var i = 0; i < data.length; i++) {
+                    vm.movieIds.push(data[i].movieId)
+                }
+                $.ajax({
+                    url: "/api/returnMovies",
+                    method: "post",
+                    data: vm,
+                    success: function () {
+                        toastr.success("Successfully return movies");
+                        rentedTable.ajax.reload();
+                        historyTable.ajax.reload();
+                    }
+                }).fail(function (response) {
+                    toastr.error(response.responseJSON.message);
+                });
+            })
+
+
         })
+
+
+
+
+
     </script>
 
 }

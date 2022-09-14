@@ -43,7 +43,13 @@
                         data: "membershipType.name"
                     },
                     {
-                        data: "phone"
+                        data: "phone",
+                        render: function (data, type, customer) {
+                            if (data !== 0) {
+                                return data;
+                            } else
+                                return "";
+                        }
                     },
                 ]
             });

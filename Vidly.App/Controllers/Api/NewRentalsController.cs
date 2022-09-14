@@ -57,15 +57,18 @@ namespace Vidly.App.Controllers.Api
                 };
 
                 _context.RentalHeaders.Add(rental);
+
+                var rentalDetails = new RentalDetail
+                {
+                    RentalNo = rentalNo,
+                    MovieId = movie.Id,
+                    CustomerId = customer.Id,
+                    Qty = (newRental.MovieIds.Count),
+                };
+
+                _context.RentalDetails.Add(rentalDetails);
             }
 
-            var rentalDetails = new RentalDetail
-            {
-                RentalNo = rentalNo,
-                Qty = (newRental.MovieIds.Count),
-            };
-
-            _context.RentalDetails.Add(rentalDetails);
             _context.SaveChanges();
 
             return Ok();

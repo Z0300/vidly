@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Web.Http;
 using Vidly.App.Dtos;
 using Vidly.App.Models;
+using System.Data.Entity;
 
 namespace Vidly.App.Controllers.Api
 {
@@ -16,17 +18,24 @@ namespace Vidly.App.Controllers.Api
         }
 
         [HttpPost]
-        public void CreateReturnMovies(ReturnMovieDto movieDto)
+        public IHttpActionResult CreateReturnMovies(ReturnMovieDto movieDto)
         {
-            var movies = _context.Movies.Where(
-                m => movieDto.MovieIds.Contains(m.Id)).AsQueryable();
+            if (movieDto.MovieIds == null)
+                return BadRequest("Please select at least one movie.");
+
+            var movies = _context.Movies
+                .Where(m => movieDto.MovieIds.Contains(m.Id))
+                .AsQueryable();
 
             foreach (var movie in movies)
             {
                 movie.NumberAvailable++;
             }
 
+            _context.SaveChanges();
+
             var rentals = _context.RentalHeaders
+                .Include(x => x.Movie)
                 .Where(x => x.RentalNo == movieDto.RentalNo)
                 .AsQueryable();
 
@@ -36,10 +45,32 @@ namespace Vidly.App.Controllers.Api
                 rental.DateReturned = DateTime.Now;
             }
 
-            var rentalDetails = _context.RentalDetails.Where(x => x.RentalNo == movieDto.RentalNo).First();
-            _context.RentalDetails.Remove(rentalDetails);
-
             _context.SaveChanges();
+
+            return Ok();
         }
+
+        [HttpPut]
+        public IHttpActionResult UpdateReturnMovie(ReturnSingleMovieDto returnDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Model must be vallid");
+
+            var movie = _context.Movies.Single(x => x.Id == returnDto.MovieId);
+            movie.NumberAvailable++;
+
+            var rentalInDb = _context.RentalHeaders
+                .SingleOrDefault(c => c.MovieId == returnDto.MovieId && c.CustomerId == returnDto.CustomerId && c.RentalNo == returnDto.RentalNo);
+
+            if (rentalInDb == null)
+                return NotFound();
+
+            rentalInDb.IsReturn = true;
+            rentalInDb.DateReturned = DateTime.Now;
+            _context.SaveChanges();
+
+            return Ok();
+        }
+
     }
 }

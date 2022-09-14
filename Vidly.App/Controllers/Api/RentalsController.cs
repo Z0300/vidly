@@ -23,7 +23,9 @@ namespace Vidly.App.Controllers.Api
         {
             var rentalsQuery = _context.RentalHeaders
                 .Include(m => m.Movie)
-                .Include(c => c.Customer);
+                .Include(c => c.Customer)
+                .GroupBy(x => new { x.RentalNo, x.Customer })
+                .Select(x => new { x.Key.RentalNo, x.Key.Customer });
 
             var Request = HttpContext.Current.Request.Params;
             int totalRecord = rentalsQuery.Count();
@@ -50,14 +52,12 @@ namespace Vidly.App.Controllers.Api
             //pagination
             //if (skip > 0)
             rentalsQuery = rentalsQuery
-                .OrderBy(a => a.RentalNo)
+                .OrderByDescending(a => a.RentalNo)
                 .Skip(skip)
                 .Take(limit > 0 ? limit : pageSize);
 
 
             var rentalsDto = rentalsQuery
-                .GroupBy(x => new { x.RentalNo, x.Customer, x.IsReturn })
-                .Select(x => new { x.Key.RentalNo, x.Key.Customer, x.Key.IsReturn })
                 .AsQueryable();
 
 

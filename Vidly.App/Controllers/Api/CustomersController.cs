@@ -55,7 +55,7 @@ namespace Vidly.App.Controllers.Api
 
 
             var customerDto = customersQuery
-                 .ToList();
+                 .AsQueryable();
 
             var obj = new
             {

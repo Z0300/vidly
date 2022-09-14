@@ -51,9 +51,8 @@ namespace Vidly.App.Controllers.Api
                 .Skip(skip)
                 .Take(limit > 0 ? limit : pageSize);
 
-
             var mmoviesDto = moviesQuery
-                 .ToList();
+                .AsQueryable();
 
             var obj = new
             {

@@ -14,16 +14,18 @@ namespace Vidly.App.Controllers.Api
             _context = new ApplicationDbContext();
         }
 
-        public IHttpActionResult GetRentedMovies(int id)
+        public IHttpActionResult GetRentedMovies(int id, string rentalNo)
         {
-            var allMoviesRented = _context.RentalHeaders
-                .Where(x => x.CustomerId == id)
-                .Select(x => x.MovieId)
-                .AsQueryable();
+            if (id == null)
+                return BadRequest("Customer not found.");
 
-            var movies = _context.Movies.Include(x => x.Genre).Where(
-                m => allMoviesRented.Contains(m.Id))
-                .AsQueryable();
+
+            var movies = _context.RentalHeaders
+               .Include(x => x.Movie)
+               .Include(x => x.Movie.Genre)
+               .Where(x => x.CustomerId == id && x.IsReturn == false && x.RentalNo == rentalNo)
+               .AsQueryable();
+
 
             return Ok(movies);
         }
