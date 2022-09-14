@@ -30,33 +30,19 @@ namespace Vidly.App.Controllers
             return View();
         }
 
-        public ActionResult Details(int id, string name)
+        public ActionResult Details(int id)
         {
-            var rental = _context.RentalHeaders
-                .Include(x => x.Customer)
-                .Where(c => c.CustomerId == id && c.RentalNo == name)
-                .FirstOrDefault();
 
-            var viewModel = new RentalFormViewModel
+            var viewModel = new RentalDetailsViewModel
             {
-                RentalNo = rental.RentalNo,
-                Customer = rental.Customer,
+                RentalId = id,
+                Customer = _context.RentalHeaders.Include(c => c.Customer).Single(x => x.Id == id).Customer
             };
 
-            return View("RentedList", viewModel);
+            return View("RentalDetails", viewModel);
         }
 
-        public ActionResult History(int id)
-        {
-            var customer = _context.Customers.Single(x => x.Id == id);
-            var vm = new CustomerViewModel
-            {
-                Customer = customer
-            };
-
-            return View("RentalHistory", vm);
-
-        }
+       
 
     }
 }

@@ -43,6 +43,7 @@
                 <span id="span-@i" onmouseout="RateOut(@i)" onmouseover="RateOver(@i)" onclick="RateClick(@i)" class="fa fa-star-o"></span>
             }
         </div>
+        @Html.ValidationMessageFor(x => x.Rating)
     </div>
     @Html.HiddenFor(x => x.Id)
     @Html.HiddenFor(x => x.Rating)

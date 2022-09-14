@@ -1,4 +1,4 @@
-﻿@model Vidly.App.ViewModels.RentalFormViewModel
+﻿@model Vidly.App.ViewModels.RentalDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -49,7 +49,6 @@
             <table id="history" class="table table-bordered table-hover" width="100%">
                 <thead>
                     <tr>
-                        <th>Rental No</th>
                         <th>Movie</th>
                         <th>Genre</th>
                         <th>Rating</th>
@@ -62,23 +61,22 @@
     </div>
 </div>
 
-<input type="hidden" id="customerId" value="@Model.Customer.Id" />
-@Html.HiddenFor(x => x.RentalNo)
+<input type="hidden" id="rentalId" value="@Model.RentalId" />
 
 @section scripts{
     <script>
         $(document).ready(function () {
-            const id = $("#customerId").val();
-            const rentalNo = $("#RentalNo").val();
+            const rentalId = $("#rentalId").val();
+
             let vm = { movieIds: [] }
+            vm.rentalId = rentalId;
 
             var rentedTable = $("#rented").DataTable({
 
                 ajax: {
-                    url: "/api/rentedMovies",
+                    url: "/api/rented",
                     data: {
-                        id: id,
-                        rentalNo: rentalNo
+                        id: rentalId
                     },
                     dataSrc: "",
                 },
@@ -111,16 +109,13 @@
             var historyTable = $("#history").DataTable({
 
                 ajax: {
-                    url: "/api/rentalHistories",
+                    url: "/api/returns",
                     data: {
-                        id: id
+                        id: rentalId
                     },
                     dataSrc: "",
                 },
                 columns: [
-                    {
-                        data: "rentalNo"
-                    },
                     {
                         data: "movie.name"
                     },
@@ -157,11 +152,11 @@
                 var button = $(this);
                 let svm = {
                     movieId: button.attr("data-movie-id"),
-                    rentalNo: rentalNo,
-                    customerId: id
+                    rentalId: rentalId
                 }
+                console.log(svm)
                 $.ajax({
-                    url: "/api/returnMovies",
+                    url: "/api/returnMovie",
                     method: "PUT",
                     data: svm,
                     success: function () {
@@ -172,15 +167,15 @@
             })
 
             $("#return").on("click", function () {
-
                 var data = rentedTable.rows().data();
-                vm.rentalNo = rentalNo;
+
                 for (var i = 0; i < data.length; i++) {
                     vm.movieIds.push(data[i].movieId)
                 }
+
                 $.ajax({
                     url: "/api/returnMovies",
-                    method: "post",
+                    method: "PUT",
                     data: vm,
                     success: function () {
                         toastr.success("Successfully return movies");

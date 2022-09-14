@@ -8,15 +8,14 @@ namespace Vidly.App.Dtos
         public List<int> MovieIds { get; set; }
     }
 
-    public class ReturnMovieDto
+    public class ReturnMoviesDto
     {
-        public string RentalNo { get; set; }
+        public int rentalId { get; set; }
         public List<int> MovieIds { get; set; }
     }
-    public class ReturnSingleMovieDto
+    public class ReturnMovieDto
     {
-        public string RentalNo { get; set; }
+        public int rentalId { get; set; }
         public int MovieId { get; set; }
-        public int CustomerId { get; set; }
     }
 }

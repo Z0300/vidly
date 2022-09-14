@@ -3,16 +3,16 @@ namespace Vidly.App.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddMovieIdToRentalHeader : DbMigration
+    public partial class RemoveQtyToRentalDetails : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.RentalDetails", "MovieId", c => c.Int(nullable: false));
+            DropColumn("dbo.RentalDetails", "Qty");
         }
         
         public override void Down()
         {
-            DropColumn("dbo.RentalDetails", "MovieId");
+            AddColumn("dbo.RentalDetails", "Qty", c => c.Int(nullable: false));
         }
     }
 }

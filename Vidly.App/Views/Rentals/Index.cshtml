@@ -45,11 +45,11 @@
                         data: "customer.name"
                     },
                     {
-                        data: "customer.id",
+                        data: "id",
                         orderable: false,
                         className: "text-center",
                         render: function (data, type, row) {
-                            return "<a href='/rentals/details/" + data + "/" + row.rentalNo + "'><i class='fa fa-list text-primary'></i></a>"
+                            return "<a href='/rentals/details/" + data + "'><i class='fa fa-list text-primary'></i></a>"
 
                         }
                     }
